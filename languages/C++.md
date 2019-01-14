@@ -6,41 +6,36 @@
 # 基础知识
 ## 关键字
 
-|Key Workds|Key Workds|Key Workds|
-|:-|:-|:-|
-|aalignas (since C++11)|delete(1)|reflexpr (reflection TS)|
-|alignof (since C++11)|do|register(2)|
-|and|double|reinterpret_cast|
-|and_eq|dynamic_cast|requires (since C++20)|
-|asm|else|return|
-|atomic_cancel (TM TS)|enum|short|
-|atomic_commit (TM TS)|explicit|signed|
-|atomic_noexcept (TM TS)|export(1)|sizeof(1)|
-|auto(1)|extern(1)|static|
-|bitand|false|static_assert (since C++11)|
-|bitor|float|static_cast|
-|bool|for|struct(1)|
-|break|friend|switch|
-|case|goto|synchronized (TM TS)|
-|catch|if|template|
-|char|import (modules TS)|this|
-|char8_t (since C++20)|inline(1)|thread_local (since C++11)|
-|char16_t (since C++11)|int|throw|
-|char32_t (since C++11)|long|true|
-|class(1)|module (modules TS)|try|
-|compl|mutable(1)|typedef|
-|concept (since C++20)|namespace|typeid|
-|const|new|typename|
-|consteval (since C++20)|noexcept (since C++11)|union|
-|constexpr (since C++11)|not|unsigned|
-|const_cast|not_eq|using(1)|
-|continue|nullptr (since C++11)|virtual|
-|co_await (coroutines TS)|operator|void|
-|co_return (coroutines TS)|or|volatile|
-|co_yield (coroutines TS)|or_eq|wchar_t|
-|decltype (since C++11)|private|while|
-|default(1)|protected|xor|
-|public|xor_eq|
+|Key Workds|Key Workds|Key Workds|Key Workds|
+|:-|:-|:-|:-|
+|alignas (since C++11)|co_await (coroutines TS)|new|thread_local (since C++11)|
+|alignof (since C++11)|co_return (coroutines TS)|noexcept (since C++11)|throw|
+|and|co_yield (coroutines TS)|not|true|
+|and_eq|decltype (since C++11)|not_eq|try|
+|asm|default(1)|nullptr (since C++11)|typedef|
+|atomic_cancel (TM TS)|delete(1)|operator|typeid|
+|atomic_commit (TM TS)|do|or|typename|
+|atomic_noexcept (TM TS)|double|or_eq|union|
+|auto(1)|dynamic_cast|private|unsigned|
+|bitand|else|protected|using(1)|
+|bitor|enum|public|virtual|
+|bool|explicit|reflexpr (reflection TS)|void|
+|break|export(1)|register(2)|volatile|
+|case|extern(1)|reinterpret_cast|wchar_t|
+|catch|FALSE|requires (since C++20)|while|
+|char|float|return|xor|
+|char8_t (since C++20)|for|short|xor_eq|
+|char16_t (since C++11)|friend|signed|
+|char32_t (since C++11)|goto|sizeof(1)|
+|class(1)|if|static|
+|compl|import (modules TS)|static_assert (since C++11)|
+|concept (since C++20)|inline(1)|static_cast|
+|const|int|struct(1)|
+|consteval (since C++20)|long|switch|
+|constexpr (since C++11)|module (modules TS)|synchronized (TM TS)|
+|const_cast|mutable(1)|template|
+|continue|namespace|this|
+
 
 ## 字节大小
 |类型|字节数|类型|字节数|
@@ -50,13 +45,14 @@
 |float|4|double|8|
 |short|2|int|4|
 |long|4|long long|8|
+
 **备注:** 不包含虚函数的空类是1个字节，包含需函数的空类是4个字节。
 
 ## 浮点数的精度计算
 估算公式: 2^10 = 1024 ≈ 10^3 每10个bit可以表示3位精度
-根据IEEE754标准：
-float中1位表示正负，8位表示阶乘，23位表示小数精度就是6 - 7位之间
-double中1位表示正负，11位表示阶乘，52位表示小数精度在15 - 16位之间
+根据IEEE754标准：<br>
+float中1位表示正负，8位表示阶乘，23位表示小数精度就是6 - 7位之间<br>
+double中1位表示正负，11位表示阶乘，52位表示小数精度在15 - 16位之间<br>
 
 ## sizeof
 ### 特殊结构
