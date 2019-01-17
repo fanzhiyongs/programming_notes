@@ -224,6 +224,33 @@ char ***ppp = &pp;           // 三级指针
 ### 构造函数（析构函数）中调用虚函数
 如果在构造函数（析构函数）中调用虚函数，则运行的是类自身定义的函数，即不发生动态绑定。（解析：如果在基类的构造函数中发生动态绑定，调用派生类的虚函数，此时，派生类并没有进行构造，引发问题。）
 
+### 基类函数不是虚函数，而派生类是虚函数，此时是否发生动态绑定？
+不发生，因为基类没有虚函数表，无法发生动态绑定。
+```
+class Person
+{
+public:
+
+    void print()
+    {
+        qInfo()<<"Person::print";
+    }
+};
+class Student: public Person
+{
+public:
+
+    virtual void print()
+    {
+        qInfo()<<"Student::print";
+    }
+};
+
+Person * p = new Student;
+p->print(); // Person::print 不发生动态绑定
+
+```
+
 ## 对象创建
 **要求在堆中创建**
 让构造函数成为私有函数。
@@ -265,5 +292,6 @@ private:
 1. 如果派生类的函数与基类的函数同名，但参数不同。此时，不论有无virtual关键字，基类的函数将被隐藏。
 2. 如果派生类的函数与基类的函数同名，并且参数也相同，但是基类函数没有virtual关键字。此时，基类的函数被隐藏。
 
+### 虚函数表
+来源：http://blog.csdn.net/haoel/article/details/1948051/
 TODO
-虚函数表
