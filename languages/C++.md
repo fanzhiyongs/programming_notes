@@ -298,8 +298,39 @@ private:
 
 ### 虚函数表
 来源：http://blog.csdn.net/haoel/article/details/1948051/
+详解：https://blog.csdn.net/Hackbuteer1/article/details/7883531
 
 虚函数的原理就是利用**虚指针**（占用类对象的存储空间）和**虚表**（不占用类对象的存储空间， 虚表和对象无关）来实现的。
+
+#### 为什么都说虚函数机制耗内存呢？
+假如基类包含1000个虚函数(虚函数指针按4字节计算)，这个基类有10000个派生类，那么总的占用空间为：`1000 * 10000 * 4 = 38MB`，这个对于面向嵌入式平台的框架来说还是挺大的，如果一个系统中包含100个这样的程序，那浪费的空间就是海量的。实际上Qt中也是大量使用了虚函数重载来实现的。
+
+#### C++如何不用虚函数实现多态？
+可以考虑使用函数指针来实现多态？
+``` C++
+
+class A
+{
+public:
+	static void test() { printf("hello A\n"); }
+
+	fVoid print;
+ 
+	A() { print = A::test; }
+};
+ 
+class B : public A
+{
+public:
+	static void test() { printf("hello B\n"); }
+ 
+	B() { print = B::test; }
+};
+```
+
+### 多态实现的两种机制
+1. C++这种虚函数表的方式；
+2. 查表法。
 
 ### 虚继承
 原理：https://blog.csdn.net/longlovefilm/article/details/80558879
