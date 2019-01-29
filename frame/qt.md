@@ -77,4 +77,15 @@ TODO
 ### Qt远程对象(RO Remote Objects)
 TODO
 
+## Qt对象树
+
+## Qt属性系统
+属性系统，让类可以拥有动态的成员。
+
+### Q_DECLARE_METATYPE与qRegisterMetaType的关系
+来源：https://blog.csdn.net/andyjim/article/details/41248829
+
+
+## Qt事件
+
 ## MVC
