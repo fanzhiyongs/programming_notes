@@ -77,7 +77,24 @@ TODO
 ### Qt远程对象(RO Remote Objects)
 TODO
 
-## Qt对象树
+## Qt内存管理
+### Qt对象树
+在Qt中，每个QObject内部都有一个list，用来保存所有的children，还有一个指针，保存自己的parent。当它自己析构时，它会将自己从parent列表中删除，并且析构掉所有的children。
+
+### delete和deleteLater
+delete - 直接删除对象
+deleteLater - 如果消息循环没有启动前调用，则在消息循环启动后执行一次删除；如果在消息循环结束后调用，对象将不会被删除。<br>
+
+**示例**: new一个窗口然后close的时候deleteLater，可以创建出一个自删除的窗口。
+
+**备注**：多次调用deleteLater是安全的，当第一个延迟删除消息收到以后，任何此对象未执行的事件将从事件队列中移除了。
+
+### Qt中已下情况new出的对象可以不用亲自去delete
+* QObject及其派生类的对象，如果其parent非0，则其parent析构时会析构该对象；
+* QWidget及其派生类的对象，可以设置Qt::WA_DeleteOnClose标志位（当close时会析构该对象）；
+* QAbstractAnimation派生类的对象，可以设置QAbstractAnimation::DeleteWhenStopped
+* QRunnable::setAutoDelete()；
+* MediaSource::setAutoDelete()；
 
 ## Qt属性系统
 属性系统，让类可以拥有动态的成员。
@@ -85,7 +102,8 @@ TODO
 ### Q_DECLARE_METATYPE与qRegisterMetaType的关系
 来源：https://blog.csdn.net/andyjim/article/details/41248829
 
+## Qt事件和事件过滤器
 
-## Qt事件
+## Qt线程池
 
 ## MVC
