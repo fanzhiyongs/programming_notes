@@ -60,7 +60,10 @@ TODO
 * WM_COPYDATA(Windows)
 
 #### QLocalServer与QLocalSocket
-QLocalServer/QLocalSocket在Windows上，底层是使用windows的name pipe。在Unix上是domain socket，domain socket不需要经过网络协议，不需要打包拆包，计算校验和，维护序号和应答等，知识将应用层数据从一个进行拷贝到另一个进程。
+QLocalServer/QLocalSocket在Windows上，底层是使用windows的name pipe。在Unix上是domain socket，domain socket不需要经过网络协议，不需要打包拆包，计算校验和，维护序号和应答等，只是将应用层数据从一个进程拷贝到另一个进程。
+
+#### 管道和Socket比有什么优势呢？
+管道不需要经过网络协议，不需要打包、拆包计算校验和，维护序号和应答等，只是将应用数据从一个进程拷贝到另一个进程。
 
 #### 匿名管道和命名管道的区别
 **匿名管道**:
@@ -80,6 +83,12 @@ TODO
 ## Qt内存管理
 ### Qt对象树
 在Qt中，每个QObject内部都有一个list，用来保存所有的children，还有一个指针，保存自己的parent。当它自己析构时，它会将自己从parent列表中删除，并且析构掉所有的children。
+#### 释放问题
+**问**: 我们知道只有new出来的对象才能释放，QObject如何知道释放的对象一定是new出来的？
+**答**: 其实这个就是一个简单的析构顺序的问题，到QObject进行析构的时候，剩下的一定是new出来，没有被delete的对象。QObject作为顶层基类，一定是最后析构的，此时所有其他的类的成员对象基本都析构完了, 这些对象析构的时候，已经把自己从父类中删除掉了，所以不会在释放的时候还存在栈对象的情况。无法基于QObject添加栈对象(除非改Qt的源码)，所以只存在一种情况下能导致崩溃，就是构建一个静态或者全局的栈对象，并设置其父对象。
+
+**注意**：以下情况会导致崩溃：
+1. 如果构建一个static的栈对象，并且设置了父类就会导致崩溃。
 
 ### delete和deleteLater
 delete - 直接删除对象
@@ -89,7 +98,8 @@ deleteLater - 如果消息循环没有启动前调用，则在消息循环启动
 
 **备注**：多次调用deleteLater是安全的，当第一个延迟删除消息收到以后，任何此对象未执行的事件将从事件队列中移除了。
 
-### Qt中已下情况new出的对象可以不用亲自去delete
+### 自销毁
+Qt中已下情况new出的对象可以不用亲自去delete:
 * QObject及其派生类的对象，如果其parent非0，则其parent析构时会析构该对象；
 * QWidget及其派生类的对象，可以设置Qt::WA_DeleteOnClose标志位（当close时会析构该对象）；
 * QAbstractAnimation派生类的对象，可以设置QAbstractAnimation::DeleteWhenStopped
