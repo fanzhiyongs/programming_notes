@@ -107,10 +107,35 @@ Qt中已下情况new出的对象可以不用亲自去delete:
 * MediaSource::setAutoDelete()；
 
 ## Qt属性系统
-属性系统，让类可以拥有动态的成员。
+### 使用
+来源：https://blog.csdn.net/niu_gao/article/details/8225089
+```
+Q_PROPERTY(type name
+             (READ getFunction [WRITE setFunction] |
+              MEMBER memberName [(READ getFunction | WRITE setFunction)])
+             [RESET resetFunction]
+             [NOTIFY notifySignal]
+             [REVISION int]
+             [DESIGNABLE bool]
+             [SCRIPTABLE bool]
+             [STORED bool]
+             [USER bool]
+             [CONSTANT]
+             [FINAL])
+```
+
+### 动态属性
+QObject::setProperty可以在**运行时**向一个类的实例添加新的属性，注意这个新属性不同于声明的时候定义，只对对象生效。
+
+### Q_PROPERTY和setProperty的区别
+1. setProperty时运行时的，Q_PROPERTY是编译时；
+2. setProperty跟对象绑定，而Q_PROPERTY会对所有的生成的对象生效；
+3. Q_PROPERTY可以定义各种函数，控制属性的读写、变化等。
 
 ### Q_DECLARE_METATYPE与qRegisterMetaType的关系
-来源：https://blog.csdn.net/andyjim/article/details/41248829
+来源：https://blog.csdn.net/qq78442761/article/details/82084295
+
+## polish和unpolish
 
 ## Qt事件和事件过滤器
 
