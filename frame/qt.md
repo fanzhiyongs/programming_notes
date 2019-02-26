@@ -142,3 +142,14 @@ QObject::setProperty可以在**运行时**向一个类的实例添加新的属�
 ## Qt线程池
 
 ## MVC
+
+## 高DPI的支持
+默认情况下，Qt设置了禁止了Windows对其进行放大，等同于调用(SetProcessDpiAwareness, PROCESS_PER_MONITOR_DPI_AWARE)，同时默认情况下Qt也静止了自动适配界面变化。
+
+### 为什么在默认禁止了自动适配的情况，界面还会变动呢？
+这里变动的主要是:
+1. 窗口标题和标题的大小，这个是系统的，这个跟着变化是合理的。
+2. 界面的字体跟着变化，这是因为字体是设置的点大小，不是像素大小。
+
+### 怎么跟踪DPI的变化?
+处理WM_DPICHANGED消息，通过HIWORD(wParam)拿到DPI的值。
